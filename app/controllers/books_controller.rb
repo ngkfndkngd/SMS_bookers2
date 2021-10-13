@@ -9,10 +9,12 @@ class BooksController < ApplicationController
 
   def index
     @books = Book.all
+    @books= Book.includes(:favorited_users).sort {|a,b| b.favorited_users.size <=> a.favorited_users.size}
     @book = Book.new
+    
   end
 
-  def create
+  def createfavorited_users
     @book = Book.new(book_params)
     @book.user_id = current_user.id
     if @book.save
